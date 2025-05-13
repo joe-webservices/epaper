@@ -20,7 +20,7 @@ To build a responsive ePaper website where users can:
 | Part           | Technology                                                |
 | -------------- | --------------------------------------------------------- |
 | **Frontend**   | HTML, CSS, JavaScript (Vanilla or with jQuery), Bootstrap |
-| **Database**   | Firebase Realtime DB or Supabase                          |
+| **Database**   | Firebase Realtime DB                                      |
 | **PDF Viewer** | [PDF.js](https://mozilla.github.io/pdf.js/) (open-source) |
 
 ---
