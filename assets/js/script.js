@@ -190,31 +190,34 @@ function startApp(db) {
 
   fetchEditions();
 }
-function renderEditions(editions) {
+function renderEditions(data) {
   const editionsRow = document.getElementById("editions-row");
   editionsRow.innerHTML = "";
 
-  if (!editions || editions.length === 0) {
-    document.getElementById("loading").textContent = "No editions found.";
+  if (!data || data.length === 0) {
+    editionsRow.innerHTML = `<p class="text-muted">No results found.</p>`;
     return;
   }
 
-  editions.forEach((edition) => {
+  data.forEach((item) => {
     const col = document.createElement("div");
-    col.className = "edition-card";
+    col.className = "col-sm-6 col-md-4 col-lg-3";
 
     col.innerHTML = `
-      <div class="edition-img-container">
-        <img src="${edition.coverUrl || "/assets/placeholder.jpg"}" alt="${
-      edition.name
-    }" class="edition-img" />
-      </div>
-      <div class="edition-body">
-        <h3 class="edition-title">${edition.name}</h3>
-        <p class="edition-date">${edition.date}</p>
-        <a href="viewer.html?fileId=${
-          edition.fileId
-        }" class="edition-button">Read Now &raquo;</a>
+      <div class="edition-card h-100">
+        <div class="edition-img-container">
+        <a href="${item.readLink}" >
+          <img src="${item.imgSrc}" alt="${
+      item.paperName
+    }" class="edition-img" /> </a>
+        </div>
+        <div class="edition-body">
+          <h3 class="edition-title">${item.paperName}</h3>
+          <p class="edition-date">${formatDate(item.date)}</p>
+          <a href="${
+            item.readLink
+          }" class="edition-button" target="_blank" rel="noopener">Read Now &raquo;</a>
+        </div>
       </div>
     `;
 
