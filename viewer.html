@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ePaper Viewer</title>
+    <style>
+      /* Reset */
+      * {
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "Inter", sans-serif;
+        background: #f8f9fa;
+        overflow: hidden;
+      }
+
+      /* Header bar */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        background: #111827;
+        color: white;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        z-index: 10;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      }
+
+      header button {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        margin-right: 20px;
+        padding: 5px 10px;
+        border-radius: 4px;
+        transition: background 0.2s ease;
+      }
+      header button:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      header .title {
+        flex-grow: 1;
+        font-weight: 700;
+        font-size: 1.1rem;
+        user-select: none;
+      }
+
+      /* Zoom controls */
+      header .zoom-controls {
+        display: flex;
+        align-items: center;
+      }
+      header .zoom-controls button {
+        font-size: 1.5rem;
+        margin-left: 10px;
+        width: 32px;
+        height: 32px;
+        line-height: 28px;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      /* PDF iframe */
+      #pdfFrame {
+        position: fixed;
+        top: 50px;
+        left: 0;
+        width: 100vw;
+        height: calc(100vh - 50px);
+        border: none;
+        background: #fff;
+      }
+
+      /* Zoom text */
+      header .zoom-level {
+        font-size: 1rem;
+        margin-left: 10px;
+        user-select: none;
+        width: 40px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <button id="backBtn" title="Go Back">← Back</button>
+      <div class="title">ePaper Viewer</div>
+    </header>
+
+    <iframe id="pdfFrame" src="" allowfullscreen></iframe>
+
+    <script>
+      // Get fileId param
+      function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+
+      const fileId = getQueryParam("fileId");
+
+      const iframe = document.getElementById("pdfFrame");
+      const zoomLevelEl = document.getElementById("zoomLevel");
+
+      if (!fileId) {
+        document.body.innerHTML =
+          '<div style="padding:20px; font-size:1.2rem; color:red;">No fileId provided in URL.</div>';
+      } else {
+        const pdfUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+        iframe.src = pdfUrl;
+      }
+
+      // Back button logic
+      document.getElementById("backBtn").addEventListener("click", () => {
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          window.location.href = "/index.html"; // fallback to home
+        }
+      });
+    </script>
+  </body>
+</html>
