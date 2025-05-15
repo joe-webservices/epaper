@@ -12,86 +12,13 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <style>
-      body {
-        font-family: "Inter", sans-serif;
-        background: #f8f9fa
-          url("https://www.transparenttextures.com/patterns/paper-fibers.png");
-        background-size: cover;
-      }
-
-      .logo {
-        text-align: center;
-        padding: 40px 0 20px;
-      }
-
-      .logo img {
-        max-height: 80px;
-      }
-
-      .tagline {
-        text-align: center;
-        font-size: 2rem;
-        font-weight: 700;
-        color: #1f2937;
-      }
-
-      .tagline span {
-        color: #d97706;
-      }
-
-      .subtag {
-        text-align: center;
-        font-size: 1rem;
-        color: #6b7280;
-        margin-bottom: 40px;
-      }
-
-      .edition-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        margin-top: 15px;
-        color: #111827;
-      }
-
-      .read-link {
-        display: block;
-        margin-top: 5px;
-        color: #2563eb;
-        text-decoration: none;
-        font-weight: 500;
-      }
-
-      .read-link:hover {
-        text-decoration: underline;
-      }
-
-      .edition-img {
-        max-width: 100%;
-        height: 180px;
-        object-fit: cover;
-        border-radius: 6px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-      }
-
-      .edition-img:hover {
-        transform: scale(1.03);
-      }
-
-      footer {
-        margin-top: 60px;
-        padding: 20px 0;
-        background: #f1f1f1;
-        text-align: center;
-        color: #6b7280;
-      }
-    </style>
+    <link rel="stylesheet" href="/assets/css/styles.css" />
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage-compat.js"></script>
   </head>
+
   <body>
     <!-- Logo -->
     <div class="logo">
@@ -102,10 +29,34 @@
     <div class="tagline">Empower your <span>mornings.</span></div>
     <div class="subtag">Read your favourite newspaper, the digital way.</div>
 
+    <!-- Filters -->
+    <div class="container filter-controls">
+      <div class="row justify-content-center g-3">
+        <div class="col-md-4">
+          <input
+            type="text"
+            id="searchInput"
+            class="form-control"
+            placeholder="Search newspaper name..."
+          />
+        </div>
+        <div class="col-md-3">
+          <select id="monthFilter" class="form-select">
+            <option value="">All Months</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button id="clearBtn" class="btn btn-outline-secondary w-100">
+            Clear Search
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Editions -->
     <div class="container">
-      <div id="editions-row" class="row text-center g-5">
-        <!-- Dynamic editions will be inserted here -->
+      <div id="editions-row" class="row g-4 text-center">
+        <!-- Cards here -->
       </div>
       <div id="loading" class="text-center my-5">Loading editions...</div>
       <div
@@ -121,75 +72,149 @@
     </footer>
 
     <script>
-      const firebaseConfig = {
-        apiKey: "AIzaSyDSTtPFBQa9K1830kFtWIWrbsgdWbQ41s4",
-        authDomain: "project-404aa.firebaseapp.com",
-        projectId: "project-404aa",
-        storageBucket: "project-404aa.firebasestorage.app",
-        messagingSenderId: "564465678821",
-        appId: "1:564465678821:web:92dc6a490320560ca9570c",
-        measurementId: "G-T8KQ8J7D5N",
-        databaseURL:
-          "https://project-404aa-default-rtdb.asia-southeast1.firebasedatabase.app",
-      };
+      // Fetch Firebase config from external JSON
+      fetch("/firebase-config.json")
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to load Firebase config");
+          return res.json();
+        })
+        .then((firebaseConfig) => {
+          firebase.initializeApp(firebaseConfig);
+          const db = firebase.database();
 
-      firebase.initializeApp(firebaseConfig);
-      const db = firebase.database();
-
-      const editionsRow = document.getElementById("editions-row");
-      const loadingEl = document.getElementById("loading");
-      const errorEl = document.getElementById("error");
-
-      // Helper: format date string YYYY-MM-DD to readable form
-      function formatDate(dateStr) {
-        const d = new Date(dateStr);
-        if (isNaN(d)) return dateStr; // fallback if invalid
-        return d.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
+          // Initialize your app here
+          startApp(db);
+        })
+        .catch((error) => {
+          document.getElementById("loading").style.display = "none";
+          const errorEl = document.getElementById("error");
+          errorEl.style.display = "block";
+          errorEl.textContent =
+            "Failed to initialize Firebase: " + error.message;
+          console.error(error);
         });
-      }
 
-      // Extract Google Drive File ID from a full drive link or just return id if already id
-      function extractDriveFileId(urlOrId) {
-        const regex = /\/d\/([a-zA-Z0-9_-]+)/;
-        const match = urlOrId.match(regex);
-        if (match && match[1]) return match[1];
+      function startApp(db) {
+        const editionsRow = document.getElementById("editions-row");
+        const loadingEl = document.getElementById("loading");
+        const errorEl = document.getElementById("error");
+        const searchInput = document.getElementById("searchInput");
+        const monthFilter = document.getElementById("monthFilter");
+        const clearBtn = document.getElementById("clearBtn");
 
-        if (/^[a-zA-Z0-9_-]+$/.test(urlOrId)) return urlOrId;
+        let allEditions = [];
 
-        return null;
-      }
+        function formatDate(dateStr) {
+          const d = new Date(dateStr);
+          return d.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+        }
 
-      function fetchEditions() {
-        db.ref("editions")
-          .once("value")
-          .then((snapshot) => {
-            loadingEl.style.display = "none";
+        function extractDriveFileId(urlOrId) {
+          const match = urlOrId.match(/\/d\/([a-zA-Z0-9_-]+)/);
+          return match
+            ? match[1]
+            : /^[a-zA-Z0-9_-]+$/.test(urlOrId)
+            ? urlOrId
+            : null;
+        }
 
-            if (!snapshot.exists()) {
-              editionsRow.innerHTML = "<p>No editions found.</p>";
-              return;
-            }
+        function renderEditions(data) {
+          editionsRow.innerHTML = "";
+          if (data.length === 0) {
+            editionsRow.innerHTML = `<p class="text-muted">No results found.</p>`;
+            return;
+          }
 
-            const editionsData = snapshot.val();
-            editionsRow.innerHTML = ""; // Clear container
+          data.forEach((item) => {
+            const col = document.createElement("div");
+            col.className = "col-sm-6 col-md-4 col-lg-3";
 
-            // editionsData structure: { paperName: { date: {driveLink, thumb} } }
-            // Show latest date edition for each paper
-            for (const paperName in editionsData) {
-              if (Object.hasOwnProperty.call(editionsData, paperName)) {
-                const editionsByDate = editionsData[paperName];
+            col.innerHTML = `
+              <div class="edition-card h-100">
+                <img src="${item.imgSrc}" alt="${
+              item.paperName
+            }" class="edition-img" />
+                <div class="edition-title">${item.paperName.toUpperCase()}</div>
+                <div class="edition-date">${formatDate(item.date)}</div>
+                <a href="${
+                  item.readLink
+                }" target="_blank" class="read-link">Read Now &raquo;</a>
+              </div>
+            `;
+
+            editionsRow.appendChild(col);
+          });
+        }
+
+        function applyFilters() {
+          const term = searchInput.value.toLowerCase();
+          const selectedMonth = monthFilter.value;
+
+          const filtered = allEditions.filter((edition) => {
+            const matchesName = edition.paperName.toLowerCase().includes(term);
+            const matchesMonth =
+              !selectedMonth || edition.date.startsWith(selectedMonth);
+            return matchesName && matchesMonth;
+          });
+
+          renderEditions(filtered);
+        }
+
+        function populateMonthDropdown(dates) {
+          const months = Array.from(
+            new Set(
+              dates.map((d) => {
+                const date = new Date(d);
+                return `${date.getFullYear()}-${String(
+                  date.getMonth() + 1
+                ).padStart(2, "0")}`;
+              })
+            )
+          )
+            .sort()
+            .reverse();
+
+          months.forEach((m) => {
+            const option = document.createElement("option");
+            const [year, month] = m.split("-");
+            option.value = m;
+            option.textContent = `${new Date(m + "-01").toLocaleString(
+              "en-US",
+              {
+                month: "long",
+              }
+            )} ${year}`;
+            monthFilter.appendChild(option);
+          });
+        }
+
+        function fetchEditions() {
+          db.ref("editions")
+            .once("value")
+            .then((snapshot) => {
+              loadingEl.style.display = "none";
+
+              if (!snapshot.exists()) {
+                editionsRow.innerHTML = "<p>No editions found.</p>";
+                return;
+              }
+
+              const data = snapshot.val();
+              allEditions = [];
+              const dateList = [];
+
+              for (const paperName in data) {
+                const editionsByDate = data[paperName];
                 const dates = Object.keys(editionsByDate);
                 const latestDate = dates.sort().reverse()[0];
                 const edition = editionsByDate[latestDate];
-
-                const colDiv = document.createElement("div");
-                colDiv.className = "col-md-3 col-sm-6";
+                dateList.push(latestDate);
 
                 let imgSrc = edition.thumb || "";
-
                 if (!imgSrc) {
                   switch (paperName.toLowerCase()) {
                     case "toi":
@@ -208,38 +233,44 @@
                         "https://images.indianexpress.com/2020/08/mirror.jpg";
                       break;
                     default:
-                      imgSrc = "/img/logo.png"; // fallback
+                      imgSrc = "/img/logo.png";
                   }
                 }
 
-                const formattedDate = formatDate(latestDate);
-
                 const fileId = extractDriveFileId(edition.driveLink);
-
                 const readLink = fileId
                   ? `viewer.html?fileId=${fileId}`
                   : edition.driveLink;
 
-                colDiv.innerHTML = `
-                  <img src="${imgSrc}" alt="${paperName}" class="edition-img" />
-                  <div class="edition-title">${paperName.toUpperCase()}</div>
-                  <small class="text-muted">Edition: ${formattedDate}</small>
-                  <a href="${readLink}" target="_blank" class="read-link">Read Now »</a>
-                `;
-
-                editionsRow.appendChild(colDiv);
+                allEditions.push({
+                  paperName,
+                  imgSrc,
+                  date: latestDate,
+                  readLink,
+                });
               }
-            }
-          })
-          .catch((error) => {
-            loadingEl.style.display = "none";
-            errorEl.style.display = "block";
-            errorEl.textContent = "Failed to load editions: " + error.message;
-          });
-      }
 
-      // Fetch editions on page load
-      fetchEditions();
+              populateMonthDropdown(dateList);
+              renderEditions(allEditions);
+            })
+            .catch((error) => {
+              loadingEl.style.display = "none";
+              errorEl.style.display = "block";
+              errorEl.textContent = "Failed to load editions: " + error.message;
+            });
+        }
+
+        // Event Listeners
+        searchInput.addEventListener("input", applyFilters);
+        monthFilter.addEventListener("change", applyFilters);
+        clearBtn.addEventListener("click", () => {
+          searchInput.value = "";
+          monthFilter.value = "";
+          renderEditions(allEditions);
+        });
+
+        fetchEditions();
+      }
     </script>
   </body>
 </html>
