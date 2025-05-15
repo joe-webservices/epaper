@@ -3,39 +3,308 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>ePaper | Home</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/assets/css/styles.css" />
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage-compat.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f5f6f8;
+        margin: 0;
+        color: #212529;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .main-header {
+        padding: 1rem 2rem;
+        background-color: #fff;
+        border-bottom: 1px solid #dee2e6;
+        position: relative;
+      }
+
+      .logo-img {
+        height: 50px;
+        width: auto;
+      }
+      @media (max-width: 768px) {
+        .main-header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .main-header > div {
+          width: 100% !important;
+          justify-content: center !important;
+          margin-bottom: 0.5rem;
+        }
+
+        .main-title {
+          font-size: 1.1rem;
+        }
+
+        .logo-img {
+          height: 36px;
+        }
+      }
+
+      .main-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #212529;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .main-title .highlight {
+        color: #ff6200;
+      }
+
+      .hero-section {
+        background-color: #e9ecef;
+        padding: 60px 20px;
+        text-align: center;
+      }
+
+      .hero-section h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        max-width: 90%;
+        margin: 0 auto;
+      }
+
+      @media (max-width: 768px) {
+        .hero-section h2 {
+          font-size: 1.5rem;
+        }
+      }
+
+      .hero-section span {
+        color: #ff6200;
+      }
+
+      .search-card {
+        background-color: #fff;
+        border-radius: 16px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        padding: 2rem;
+        max-width: 900px;
+        margin: -50px auto 40px;
+      }
+
+      .search-controls .form-control,
+      .search-controls .form-select {
+        border-radius: 10px;
+      }
+
+      .search-controls .btn {
+        border-radius: 10px;
+        background-color: #ff6200;
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        .search-card .row > div {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+
+        .search-card .btn {
+          width: 100%;
+          margin-bottom: 0.5rem;
+        }
+
+        #clearBtn {
+          margin-bottom: 0;
+        }
+      }
+
+      .edition-card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        width: 100%;
+        max-width: 300px;
+        min-width: 260px;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border: 1px solid #e0e0e0;
+        text-align: center;
+        font-family: "Inter", sans-serif;
+      }
+
+      .edition-img-container {
+        height: 180px;
+        background-color: #f9f9f9;
+        overflow: hidden;
+      }
+
+      .edition-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .edition-card:hover .edition-img {
+        transform: scale(1.02);
+      }
+
+      .edition-body {
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+        flex-grow: 1;
+      }
+
+      .edition-title {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #212529;
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+        line-height: 1.3;
+      }
+
+      .edition-date {
+        font-size: 0.9rem;
+        color: #6c757d;
+        /* margin-bottom: 0.75rem; */
+      }
+
+      .edition-button {
+        background-color: #ff6200;
+        color: #fff;
+        border: none;
+        font-size: 0.95rem;
+        font-weight: 600;
+        padding: 0.6rem 1.2rem;
+        border-radius: 12px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 5px 12px rgba(255, 98, 0, 0.25);
+        text-decoration: none;
+      }
+
+      .edition-button:hover,
+      .edition-button:focus {
+        background-color: #e75a00;
+        transform: translateY(-2px);
+      }
+
+      /* --- Responsive Layout --- */
+
+      /* Grid wrapper (editions-row) */
+      #editions-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        padding: 0 1rem;
+      }
+
+      /* Adjust card image height on smaller screens */
+      @media (max-width: 576px) {
+        .edition-card {
+          max-width: 100%;
+          margin: 0 auto;
+        }
+
+        .edition-img-container {
+          height: 160px;
+        }
+
+        .edition-title {
+          font-size: 1rem;
+        }
+
+        .edition-button {
+          font-size: 0.9rem;
+          padding: 0.5rem 1rem;
+        }
+      }
+
+      .footer {
+        font-family: "Inter", sans-serif;
+        font-size: 0.95rem;
+        background-color: #ffffff;
+        color: #6c757d;
+      }
+
+      .footer h5 {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #212529;
+      }
+
+      .footer a {
+        color: #ff6200;
+        text-decoration: none;
+      }
+
+      .footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 576px) {
+        .footer h5 {
+          font-size: 1.1rem;
+        }
+
+        .footer p {
+          font-size: 0.9rem;
+        }
+      }
+      .editions-section {
+        padding-bottom: 3rem; /* Add this */
+      }
+    </style>
   </head>
-
   <body>
-    <!-- Logo -->
-    <div class="logo">
-      <img src="/assets/images/logo.png" alt="ePaper Logo" />
-    </div>
+    <!-- Header -->
+    <header
+      class="main-header d-flex justify-content-between align-items-center"
+    >
+      <div class="d-flex align-items-center">
+        <img src="/assets/images/logo.png" alt="Logo" class="logo-img me-3" />
+      </div>
+      <div class="text-center flex-grow-1">
+        <h1 class="main-title mb-0">
+          News<span class="highlight">paper</span>
+        </h1>
+      </div>
+      <div style="width: 60px"></div>
+      <!-- spacer for symmetry with logo -->
+    </header>
 
-    <!-- Headline -->
-    <div class="tagline">Empower your <span>mornings.</span></div>
-    <div class="subtag">Read your favourite newspaper, the digital way.</div>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <h2>Read editions from <span>top newspapers</span> in one place.</h2>
+    </section>
 
-    <!-- Filters -->
-    <div class="container filter-controls">
-      <div class="row justify-content-center g-3">
-        <div class="col-md-4">
+    <!-- Search Card -->
+    <div class="search-card">
+      <div class="row g-3 search-controls">
+        <div class="col-md-5">
           <input
-            type="text"
             id="searchInput"
+            type="text"
             class="form-control"
             placeholder="Search newspaper name..."
           />
@@ -45,233 +314,71 @@
             <option value="">All Months</option>
           </select>
         </div>
-        <div class="col-md-2">
-          <button id="clearBtn" class="btn btn-outline-secondary w-100">
-            Clear Search
+        <div class="col-md-2 d-grid">
+          <button
+            class="btn"
+            onclick="document.getElementById('searchInput').dispatchEvent(new Event('input'))"
+          >
+            Search
           </button>
+        </div>
+        <div class="col-md-2 d-grid">
+          <button id="clearBtn" class="btn btn-outline-secondary">Clear</button>
         </div>
       </div>
     </div>
 
     <!-- Editions -->
-    <div class="container">
-      <div id="editions-row" class="row g-4 text-center">
-        <!-- Cards here -->
+    <main class="editions-section container">
+      <div id="editions-row" class="row g-4">
+        <!-- Dynamic content will appear here -->
       </div>
       <div id="loading" class="text-center my-5">Loading editions...</div>
-      <div
-        id="error"
-        class="text-center text-danger my-5"
-        style="display: none"
-      ></div>
-    </div>
+      <div id="error" class="text-center text-danger my-5 d-none"></div>
+    </main>
 
     <!-- Footer -->
-    <footer>
-      <small>&copy; 2025 ePaper Platform. All rights reserved.</small>
+    <footer class="footer mt-auto py-4 bg-white border-top">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Left Column: Newspaper Name -->
+          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+            <h5 class="mb-0 fw-bold">
+              News<span class="text-primary">paper</span>
+            </h5>
+          </div>
+          <!-- Right Column: Description -->
+          <div class="col-md-6 text-center text-md-end">
+            <p class="mb-0 small text-muted">
+              A curated platform bringing together editions from top newspapers
+              in one place.
+            </p>
+          </div>
+        </div>
+        <hr class="my-3" />
+        <div class="row">
+          <div class="col text-center">
+            <p class="mb-0 small text-muted">
+              &copy; 2025 Newspaper. All rights reserved. | Developed by
+              <a
+                href="https://jwswebservices.netlify.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-decoration-none fw-semibold"
+              >
+                JWS
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
     </footer>
 
-    <script>
-      // Fetch Firebase config from external JSON
-      fetch("/firebase-config.json")
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to load Firebase config");
-          return res.json();
-        })
-        .then((firebaseConfig) => {
-          firebase.initializeApp(firebaseConfig);
-          const db = firebase.database();
-
-          // Initialize your app here
-          startApp(db);
-        })
-        .catch((error) => {
-          document.getElementById("loading").style.display = "none";
-          const errorEl = document.getElementById("error");
-          errorEl.style.display = "block";
-          errorEl.textContent =
-            "Failed to initialize Firebase: " + error.message;
-          console.error(error);
-        });
-
-      function startApp(db) {
-        const editionsRow = document.getElementById("editions-row");
-        const loadingEl = document.getElementById("loading");
-        const errorEl = document.getElementById("error");
-        const searchInput = document.getElementById("searchInput");
-        const monthFilter = document.getElementById("monthFilter");
-        const clearBtn = document.getElementById("clearBtn");
-
-        let allEditions = [];
-
-        function formatDate(dateStr) {
-          const d = new Date(dateStr);
-          return d.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          });
-        }
-
-        function extractDriveFileId(urlOrId) {
-          const match = urlOrId.match(/\/d\/([a-zA-Z0-9_-]+)/);
-          return match
-            ? match[1]
-            : /^[a-zA-Z0-9_-]+$/.test(urlOrId)
-            ? urlOrId
-            : null;
-        }
-
-        function renderEditions(data) {
-          editionsRow.innerHTML = "";
-          if (data.length === 0) {
-            editionsRow.innerHTML = `<p class="text-muted">No results found.</p>`;
-            return;
-          }
-
-          data.forEach((item) => {
-            const col = document.createElement("div");
-            col.className = "col-sm-6 col-md-4 col-lg-3";
-
-            col.innerHTML = `
-              <div class="edition-card h-100">
-                <img src="${item.imgSrc}" alt="${
-              item.paperName
-            }" class="edition-img" />
-                <div class="edition-title">${item.paperName.toUpperCase()}</div>
-                <div class="edition-date">${formatDate(item.date)}</div>
-                <a href="${
-                  item.readLink
-                }" class="read-link">Read Now &raquo;</a>
-              </div>
-            `;
-
-            editionsRow.appendChild(col);
-          });
-        }
-
-        function applyFilters() {
-          const term = searchInput.value.toLowerCase();
-          const selectedMonth = monthFilter.value;
-
-          const filtered = allEditions.filter((edition) => {
-            const matchesName = edition.paperName.toLowerCase().includes(term);
-            const matchesMonth =
-              !selectedMonth || edition.date.startsWith(selectedMonth);
-            return matchesName && matchesMonth;
-          });
-
-          renderEditions(filtered);
-        }
-
-        function populateMonthDropdown(dates) {
-          const months = Array.from(
-            new Set(
-              dates.map((d) => {
-                const date = new Date(d);
-                return `${date.getFullYear()}-${String(
-                  date.getMonth() + 1
-                ).padStart(2, "0")}`;
-              })
-            )
-          )
-            .sort()
-            .reverse();
-
-          months.forEach((m) => {
-            const option = document.createElement("option");
-            const [year, month] = m.split("-");
-            option.value = m;
-            option.textContent = `${new Date(m + "-01").toLocaleString(
-              "en-US",
-              {
-                month: "long",
-              }
-            )} ${year}`;
-            monthFilter.appendChild(option);
-          });
-        }
-
-        function fetchEditions() {
-          db.ref("editions")
-            .once("value")
-            .then((snapshot) => {
-              loadingEl.style.display = "none";
-
-              if (!snapshot.exists()) {
-                editionsRow.innerHTML = "<p>No editions found.</p>";
-                return;
-              }
-
-              const data = snapshot.val();
-              allEditions = [];
-              const dateList = [];
-
-              for (const paperName in data) {
-                const editionsByDate = data[paperName];
-                const dates = Object.keys(editionsByDate);
-                const latestDate = dates.sort().reverse()[0];
-                const edition = editionsByDate[latestDate];
-                dateList.push(latestDate);
-
-                let imgSrc = edition.thumbUrl || "";
-
-                if (!imgSrc) {
-                  switch (paperName.toLowerCase()) {
-                    case "toi":
-                      imgSrc =
-                        "https://epaper.timesgroup.com//TimesOfIndia/TimesOfIndia/2023/12/25/TOIBG/1_001/1_01/1_01_001.jpg";
-                      break;
-                    case "et":
-                      imgSrc = "https://etimg.etb2bimg.com/photo/87369819.cms";
-                      break;
-                    case "mt":
-                      imgSrc =
-                        "https://maharashtratimes.com/thumb/10010940/maharashtra-times-logo.jpg";
-                      break;
-                    case "mirror":
-                      imgSrc =
-                        "https://images.indianexpress.com/2020/08/mirror.jpg";
-                      break;
-                    default:
-                      imgSrc = "/img/logo.png";
-                  }
-                }
-
-                const fileId = extractDriveFileId(edition.driveLink);
-                const readLink = fileId
-                  ? `viewer.html?fileId=${fileId}`
-                  : edition.driveLink;
-
-                allEditions.push({
-                  paperName,
-                  imgSrc,
-                  date: latestDate,
-                  readLink,
-                });
-              }
-
-              populateMonthDropdown(dateList);
-              renderEditions(allEditions);
-            })
-            .catch((error) => {
-              loadingEl.style.display = "none";
-              errorEl.style.display = "block";
-              errorEl.textContent = "Failed to load editions: " + error.message;
-            });
-        }
-
-        // Event Listeners
-        searchInput.addEventListener("input", applyFilters);
-        monthFilter.addEventListener("change", applyFilters);
-        clearBtn.addEventListener("click", () => {
-          searchInput.value = "";
-          monthFilter.value = "";
-          renderEditions(allEditions);
-        });
-
-        fetchEditions();
-      }
-    </script>
+    <!-- Bootstrap and Firebase -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage-compat.js"></script>
+    <script src="/assets/js/script.js"></script>
   </body>
 </html>
