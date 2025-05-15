@@ -3,20 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Admin | Upload ePaper</title>
+    <title>Admin Panel</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/assets/css/admin.css" />
     <style>
-      /* Position toggle button inside input */
-      .position-relative .btn-toggle-pwd {
+      .btn-toggle-pwd {
         position: absolute;
         top: 50%;
         right: 0.75rem;
         transform: translateY(-50%);
-        z-index: 5;
         border: none;
         background: transparent;
         cursor: pointer;
@@ -24,18 +22,32 @@
         color: #6c757d;
         user-select: none;
       }
-      .position-relative .btn-toggle-pwd:focus {
+      .btn-toggle-pwd:focus {
         outline: none;
         color: #495057;
+      }
+      .pointer {
+        cursor: pointer;
+      }
+      section {
+        display: none;
+      }
+      section.active {
+        display: block;
+      }
+
+      #navTabs {
+        margin-bottom: 1rem;
+        user-select: none;
       }
     </style>
   </head>
   <body class="p-5 bg-light">
-    <div class="container" style="max-width: 500px">
+    <div class="container" style="max-width: 600px">
       <h2 class="mb-4 text-center">Admin Panel</h2>
 
-      <!-- Login Section -->
-      <div id="login-section">
+      <!-- LOGIN -->
+      <section id="loginSection" class="active">
         <h4 class="mb-3">Admin Login</h4>
         <form id="loginForm" novalidate>
           <div class="mb-3">
@@ -44,7 +56,7 @@
               id="email"
               class="form-control"
               placeholder="Email"
-              autocomplete="username"
+              autocomplete="email"
               required
             />
           </div>
@@ -77,71 +89,175 @@
               aria-hidden="true"
             ></span>
           </button>
-
           <div id="login-error" class="mt-3 text-danger"></div>
         </form>
-      </div>
+      </section>
 
-      <!-- Upload Section -->
-      <div id="upload-section" style="display: none">
-        <h4 class="mb-3">Upload New Edition (Google Drive Link)</h4>
-        <form id="driveForm" novalidate>
-          <div class="mb-3">
-            <label for="paperName" class="form-label"
-              >Newspaper Name (e.g., toi)</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="paperName"
-              required
-              autocomplete="off"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="editionDate" class="form-label">Edition Date</label>
-            <input type="date" class="form-control" id="editionDate" required />
-          </div>
-
-          <div class="mb-3">
-            <label for="driveLink" class="form-label"
-              >Google Drive Shareable Link</label
-            >
-            <input
-              type="url"
-              class="form-control"
-              id="driveLink"
-              required
-              autocomplete="off"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="thumbUrl" class="form-label">Thumbnail Image URL</label>
-            <input
-              type="url"
-              class="form-control"
-              id="thumbUrl"
-              placeholder="https://example.com/thumb.jpg"
-              autocomplete="off"
-            />
-          </div>
-
-          <button type="submit" class="btn btn-success w-100" id="saveBtn">
-            <span id="saveBtnText">Save Link</span>
-            <span
-              id="saveSpinner"
-              class="spinner-border spinner-border-sm ms-2 d-none"
-              role="status"
-              aria-hidden="true"
-            ></span>
+      <!-- Admin UI after login -->
+      <section id="adminUI">
+        <nav id="navTabs" class="nav nav-tabs justify-content-center">
+          <a href="#" class="nav-link active" data-section="dashboardSection"
+            >Dashboard</a
+          >
+          <a href="#" class="nav-link" data-section="uploadSection"
+            >Upload Paper</a
+          >
+          <a href="#" class="nav-link" data-section="manageSection"
+            >Manage Papers</a
+          >
+          <button
+            class="btn btn-sm btn-danger ms-3 d-flex align-items-center gap-1"
+            id="logoutBtn"
+          >
+            Logout
           </button>
-        </form>
-        <button id="logoutBtn" class="btn btn-secondary mt-4 w-100">
-          Logout
-        </button>
-        <div id="result" class="mt-4"></div>
+        </nav>
+
+        <section id="dashboardSection" class="active">
+          <div class="card text-center shadow-sm mb-4">
+            <div class="card-body">
+              <h5>Total Papers Uploaded</h5>
+              <h2 id="paperCount">0</h2>
+            </div>
+          </div>
+        </section>
+
+        <section id="uploadSection">
+          <h4 class="mb-3">Upload New Edition (Google Drive Link)</h4>
+          <form id="uploadForm" novalidate>
+            <div class="mb-3">
+              <label for="paperName" class="form-label"
+                >Newspaper Name (e.g., toi)</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="paperName"
+                required
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="editionDate" class="form-label">Edition Date</label>
+              <input
+                type="date"
+                class="form-control"
+                id="editionDate"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="driveLink" class="form-label"
+                >Google Drive Shareable Link</label
+              >
+              <input
+                type="url"
+                class="form-control"
+                id="driveLink"
+                required
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="thumbUrl" class="form-label"
+                >Thumbnail Image URL</label
+              >
+              <input
+                type="url"
+                class="form-control"
+                id="thumbUrl"
+                placeholder="https://example.com/thumb.jpg"
+                autocomplete="off"
+              />
+            </div>
+
+            <button type="submit" class="btn btn-success w-100" id="saveBtn">
+              <span id="saveBtnText">Save Link</span>
+              <span
+                id="saveSpinner"
+                class="spinner-border spinner-border-sm ms-2 d-none"
+                role="status"
+                aria-hidden="true"
+              ></span>
+            </button>
+            <button
+              type="button"
+              id="backToDashboard"
+              class="btn btn-link mt-2"
+            >
+              ← Back to Dashboard
+            </button>
+          </form>
+        </section>
+
+        <section id="manageSection">
+          <h4 class="mb-3">Manage Papers</h4>
+          <div id="papersList" class="list-group mb-4"></div>
+
+          <!-- Edit form -->
+          <div id="editFormContainer" style="display: none">
+            <h5>Edit Edition</h5>
+            <form id="editForm">
+              <input type="hidden" id="editPaperName" />
+              <input type="hidden" id="editEditionDate" />
+
+              <div class="mb-3">
+                <label for="editDriveLink" class="form-label"
+                  >Google Drive Link</label
+                >
+                <input
+                  type="url"
+                  class="form-control"
+                  id="editDriveLink"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="editThumbUrl" class="form-label"
+                  >Thumbnail Image URL</label
+                >
+                <input type="url" class="form-control" id="editThumbUrl" />
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                Save Changes
+              </button>
+              <button
+                type="button"
+                id="cancelEditBtn"
+                class="btn btn-secondary ms-2"
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </section>
+      </section>
+    </div>
+
+    <!-- Toast for messages -->
+    <div
+      id="liveToast"
+      class="toast align-items-center text-bg-primary border-0"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+      style="position: fixed; top: 1rem; right: 1rem; z-index: 1080"
+    >
+      <div class="d-flex">
+        <div id="toastBody" class="toast-body">
+          <!-- Toast message goes here -->
+        </div>
+        <button
+          type="button"
+          class="btn-close btn-close-white me-2 m-auto"
+          data-bs-dismiss="toast"
+          aria-label="Close"
+        ></button>
       </div>
     </div>
 
@@ -150,28 +266,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/admin.js"></script>
 
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
-      <div
-        id="liveToast"
-        class="toast align-items-center text-bg-primary border-0"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-      >
-        <div class="d-flex">
-          <div class="toast-body" id="toastBody">
-            <!-- Toast message injected here -->
-          </div>
-          <button
-            type="button"
-            class="btn-close btn-close-white me-2 m-auto"
-            data-bs-dismiss="toast"
-            aria-label="Close"
-          ></button>
-        </div>
-      </div>
-    </div>
+    <!-- Your external JS -->
+    <script src="admin.js"></script>
   </body>
 </html>

@@ -15,8 +15,8 @@ body {
   padding: 2rem;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  max-width: 600px;
-  width: 100%;
+  width: 600px;
+  height: auto;
 }
 
 h2,
@@ -33,7 +33,7 @@ input.form-control {
   font-size: 1rem;
   background: #2a2a4a;
   color: #eee;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, background 0.3s ease;
 }
 
 input.form-control::placeholder {
@@ -60,16 +60,40 @@ input.form-control:focus {
   gap: 0.5rem;
 }
 
+.btn-primary {
+  background-color: #4e5eff;
+  color: #fff;
+}
+
 .btn-primary:hover {
   background-color: #5555ff;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: #fff;
 }
 
 .btn-success:hover {
   background-color: #33cc66;
 }
 
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
 .btn-secondary:hover {
   background-color: #666699;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
 }
 
 /* Spinner inside button */

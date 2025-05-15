@@ -142,7 +142,7 @@
                 <div class="edition-date">${formatDate(item.date)}</div>
                 <a href="${
                   item.readLink
-                }" target="_blank" class="read-link">Read Now &raquo;</a>
+                }" class="read-link">Read Now &raquo;</a>
               </div>
             `;
 
@@ -214,7 +214,8 @@
                 const edition = editionsByDate[latestDate];
                 dateList.push(latestDate);
 
-                let imgSrc = edition.thumb || "";
+                let imgSrc = edition.thumbUrl || "";
+
                 if (!imgSrc) {
                   switch (paperName.toLowerCase()) {
                     case "toi":
