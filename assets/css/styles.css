@@ -8,7 +8,7 @@ body {
   min-height: 100vh;
 }
 .main-header {
-  padding: 1rem 2rem;
+  padding: 0.33rem 3rem;
   background-color: #fff;
   border-bottom: 1px solid #dee2e6;
   position: relative;
@@ -52,7 +52,10 @@ body {
 
 .hero-section {
   background-color: #e9ecef;
-  padding: 60px 20px;
+  padding-top: 35px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 55px;
   text-align: center;
 }
 
@@ -126,7 +129,7 @@ body {
 }
 
 .edition-img-container {
-  height: 180px;
+  height: auto;
   background-color: #f9f9f9;
   overflow: hidden;
 }
@@ -217,7 +220,7 @@ body {
     padding: 0.5rem 1rem;
   }
 }
-
+/* 
 .footer {
   font-family: "Inter", sans-serif;
   font-size: 0.95rem;
@@ -249,7 +252,7 @@ body {
   .footer p {
     font-size: 0.9rem;
   }
-}
+} */
 .editions-section {
   padding-bottom: 3rem; /* Add this */
 }

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Login</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/admin.css" />
+    <style>
+      body.login-page {
+        background-color: #e0e0e0; /* Soft background color */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        font-family: "Arial", sans-serif; /* Use a common sans-serif font */
+      }
+
+      .login-split-container {
+        display: flex;
+        width: 80%; /* Adjust width as needed */
+        max-width: 900px; /* Max width */
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        background-color: white; /* Default background */
+      }
+
+      .login-form-section {
+        flex: 1 1 40%; /* Form takes about 40% */
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center; /* Center form content */
+      }
+
+      .login-welcome-section {
+        flex: 1 1 60%; /* Welcome takes about 60% */
+        /* Use a gradient similar to the image */
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        /* You can replace the gradient with a background image if preferred */
+        /* background: url('/assets/images/welcome-bg.jpg') no-repeat center center; */
+        /* background-size: cover; */
+
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        text-align: center;
+      }
+
+      /* Profile Icon Styling */
+      .profile-icon-container {
+        margin-bottom: 20px;
+        border: 2px solid #6a11cb; /* Border color matching the blue/purple tone */
+        border-radius: 50%;
+        padding: 15px;
+        display: inline-block; /* Needed for border/padding */
+      }
+
+      .profile-icon {
+        font-size: 50px;
+        color: #6a11cb; /* Icon color matching border */
+      }
+
+      /* Text Styling */
+      .login-form-section h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #333; /* Darker text color */
+      }
+
+      .login-form-section p.text-muted {
+        font-size: 16px;
+        margin-bottom: 30px;
+      }
+
+      .welcome-text {
+        font-size: 48px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .welcome-subtext {
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+
+      .login-link {
+        color: white;
+        text-decoration: underline;
+      }
+
+      /* Form Specific Styles */
+      .login-form-section .form-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        text-align: left; /* Align label left */
+        width: 100%; /* Make label take full width */
+      }
+
+      .login-form-section .form-control,
+      .login-form-section .input-group-text {
+        border: 1px solid #ced4da;
+        border-radius: 5px; /* Slightly rounded corners */
+      }
+
+      .login-form-section .input-group-text {
+        background-color: #f8f9fa;
+        padding: 0.375rem 0.75rem; /* Match form control padding */
+      }
+      .login-form-section
+        .input-group
+        > :not(:first-child):not(.dropdown-menu):not(.autoComplete_wrapper) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      .login-form-section .btn-primary {
+        background-color: #e83e8c; /* Pink color from image */
+        border: none;
+        padding: 10px;
+        font-weight: bold;
+        border-radius: 5px; /* Rounded button */
+        margin-top: 20px; /* Space above button */
+      }
+      .login-form-section .btn-primary:hover {
+        background-color: #d63384; /* Darker pink on hover */
+      }
+
+      .login-form-section .small a {
+        font-size: 12px; /* Smaller text for links */
+      }
+
+      .login-form-section .text-muted.mt-3 {
+        margin-top: 20px !important; /* Adjust margin for dots */
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .login-split-container {
+          flex-direction: column;
+          width: 90%;
+          box-shadow: none; /* Remove shadow on small screens */
+        }
+        .login-form-section,
+        .login-welcome-section {
+          flex: none;
+          width: 100%;
+          padding: 30px; /* Adjust padding for small screens */
+        }
+        .login-welcome-section {
+          display: none; /* Hide welcome section on small screens */
+        }
+        .login-form-section {
+          background-color: white;
+          border-radius: 15px; /* Add border radius back */
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Add shadow back to form section */
+        }
+      }
+    </style>
+  </head>
+  <body class="login-page">
+    <div class="login-split-container">
+      <div class="login-form-section">
+        <div class="profile-icon-container">
+          <i class="bi bi-person-circle profile-icon"></i>
+        </div>
+        <h2>Admin Portal</h2>
+        <p class="text-muted">Sign in to your account</p>
+
+        <form id="loginForm" novalidate class="w-100">
+          <div class="mb-3">
+            <label class="form-label">USERNAME</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-person"></i></span>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label">PASSWORD</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              />
+              <button
+                type="button"
+                id="togglePassword"
+                class="btn btn-outline-secondary"
+              >
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100" id="loginBtn">
+            <span id="loginBtnText">LOGIN</span>
+            <span
+              id="loginSpinner"
+              class="spinner-border spinner-border-sm ms-2 d-none"
+              role="status"
+            ></span>
+          </button>
+
+          <div id="login-error" class="mt-3 text-danger text-center"></div>
+
+          <div class="text-center text-muted mt-3">...</div>
+        </form>
+      </div>
+
+      <div class="login-welcome-section d-none d-md-flex">
+        <!-- Hide on small, show on medium+ -->
+        <h2 class="welcome-text">Welcome...</h2>
+        <p class="welcome-subtext">Sign in to your admin account.</p>
+      </div>
+    </div>
+
+    <!-- Toast for messages -->
+    <div
+      class="toast-container position-fixed top-0 end-0 p-3"
+      style="z-index: 1050"
+    >
+      <div
+        id="liveToast"
+        class="toast align-items-center text-white bg-success border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="d-flex">
+          <div class="toast-body"></div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="js/login.js"></script>
+  </body>
+</html>

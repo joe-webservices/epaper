@@ -1,0 +1,86 @@
+<!-- Admin Sidebar -->
+<aside class="admin-sidebar">
+  <nav class="nav flex-column p-3 bg-light h-100">
+    <a
+      href="/"
+      class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
+    >
+      <span class="fs-4">Admin Menu</span>
+    </a>
+    <hr />
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link text-dark" id="navUpload" href="upload.html">
+          <i class="bi bi-upload"></i> Upload
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark" id="navManage" href="manage.html">
+          <i class="bi bi-folder"></i> Manage
+        </a>
+      </li>
+    </ul>
+    <hr />
+  </nav>
+</aside>
+
+<style>
+  /* Basic styling for the sidebar to help it visually match the header */
+  .admin-sidebar {
+    /* Assuming a fixed width sidebar */
+    width: 250px; /* Adjust as needed */
+    flex-shrink: 0; /* Prevent shrinking */
+    height: 100vh; /* Full height */
+    position: fixed; /* Fixed position on the left */
+    top: 0;
+    left: 0;
+    /* Background color is set by bg-dark class */
+    /* Add a border or shadow if your header has one */
+    /* border-right: 1px solid #dee2e6; */
+    /* box-shadow: 2px 0 5px rgba(0,0,0,0.1); */
+    overflow-y: auto; /* Enable scrolling for long menus */
+  }
+
+  .admin-sidebar .nav-link {
+    color: var(--bs-dark, #343a40);
+    transition: all 0.3s ease;
+  }
+
+  .admin-sidebar .nav-link:hover,
+  .admin-sidebar .nav-link.active {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #000;
+    border-radius: 5px;
+  }
+
+  .admin-sidebar .nav-link i {
+    margin-right: 10px;
+  }
+
+  .admin-sidebar hr {
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  /* Adjust layout to accommodate the fixed sidebar */
+  body {
+    padding-left: 250px; /* Add padding to the body equal to sidebar width */
+  }
+
+  .admin-main {
+    /* Ensure main content flows correctly next to the sidebar */
+    margin-left: 0; /* Remove default margin if any */
+    padding-top: 20px; /* Add some padding at the top */
+  }
+
+  /* Basic Responsive adjustment - hide sidebar on small screens */
+  @media (max-width: 768px) {
+    .admin-sidebar {
+      left: -250px; /* Hide off-screen */
+      /* You would need JS to toggle a 'show' class to bring it into view */
+      /* This simple CSS just hides it */
+    }
+    body {
+      padding-left: 0; /* Remove padding */
+    }
+  }
+</style>

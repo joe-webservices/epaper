@@ -23,18 +23,15 @@ function startApp(db) {
   const editionsRow = document.getElementById("editions-row");
   const loadingEl = document.getElementById("loading");
   const errorEl = document.getElementById("error");
-  const searchInput = document.getElementById("searchInput");
   const monthFilter = document.getElementById("monthFilter");
-  const clearBtn = document.getElementById("clearBtn");
 
   let allEditions = [];
 
   function formatDate(dateStr) {
     const d = new Date(dateStr);
     return d.toLocaleDateString("en-US", {
-      year: "numeric",
       month: "long",
-      day: "numeric",
+      year: "numeric",
     });
   }
 
@@ -52,16 +49,28 @@ function startApp(db) {
 
     data.forEach((item) => {
       const col = document.createElement("div");
-      col.className = "col-sm-6 col-md-4 col-lg-3";
+      col.className = "col-sm-6 col-md-4 col-lg-3 mb-4";
 
       col.innerHTML = `
-        <div class="edition-card h-100">
-          <img src="${item.imgSrc}" alt="${
+        <div class="edition-card card h-100 border-0 shadow-sm rounded-3">
+          <div class="edition-img-container">
+            <a href="${item.readLink}" target="_blank" rel="noopener">
+              <img src="${item.imgSrc}" alt="${
         item.paperName
-      }" class="edition-img" />
-          <div class="edition-title">${item.paperName.toUpperCase()}</div>
-          <div class="edition-date">${formatDate(item.date)}</div>
-          <a href="${item.readLink}" class="read-link">Read Now &raquo;</a>
+      }" class="edition-img card-img-top" />
+            </a>
+          </div>
+          <div class="card-body text-center">
+            <h3 class="edition-title card-title">${item.paperName.toUpperCase()}</h3>
+            <p class="edition-date card-subtitle text-muted">${formatDate(
+              item.date
+            )}</p>
+            <div class="mt-3">
+               <a href="${
+                 item.readLink
+               }" class="btn btn-warning edition-button rounded-pill px-4 py-2" target="_blank" rel="noopener">Read Now &raquo;</a>
+            </div>
+          </div>
         </div>
       `;
 
@@ -70,16 +79,10 @@ function startApp(db) {
   }
 
   function applyFilters() {
-    const term = searchInput.value.toLowerCase();
     const selectedMonth = monthFilter.value;
-
     const filtered = allEditions.filter((edition) => {
-      const matchesName = edition.paperName.toLowerCase().includes(term);
-      const matchesMonth =
-        !selectedMonth || edition.date.startsWith(selectedMonth);
-      return matchesName && matchesMonth;
+      return !selectedMonth || edition.date.startsWith(selectedMonth);
     });
-
     renderEditions(filtered);
   }
 
@@ -178,51 +181,9 @@ function startApp(db) {
   }
 
   // Event Listeners
-  if (searchInput && monthFilter && clearBtn) {
-    searchInput.addEventListener("input", applyFilters);
+  if (monthFilter) {
     monthFilter.addEventListener("change", applyFilters);
-    clearBtn.addEventListener("click", () => {
-      searchInput.value = "";
-      monthFilter.value = "";
-      renderEditions(allEditions);
-    });
   }
 
   fetchEditions();
-}
-function renderEditions(data) {
-  const editionsRow = document.getElementById("editions-row");
-  editionsRow.innerHTML = "";
-
-  if (!data || data.length === 0) {
-    editionsRow.innerHTML = `<p class="text-muted">No results found.</p>`;
-    return;
-  }
-
-  data.forEach((item) => {
-    const col = document.createElement("div");
-    col.className = "col-sm-6 col-md-4 col-lg-3";
-
-    col.innerHTML = `
-      <div class="edition-card h-100">
-        <div class="edition-img-container">
-        <a href="${item.readLink}" >
-          <img src="${item.imgSrc}" alt="${
-      item.paperName
-    }" class="edition-img" /> </a>
-        </div>
-        <div class="edition-body">
-          <h3 class="edition-title">${item.paperName}</h3>
-          <p class="edition-date">${formatDate(item.date)}</p>
-          <a href="${
-            item.readLink
-          }" class="edition-button" target="_blank" rel="noopener">Read Now &raquo;</a>
-        </div>
-      </div>
-    `;
-
-    editionsRow.appendChild(col);
-  });
-
-  document.getElementById("loading").classList.add("d-none");
 }

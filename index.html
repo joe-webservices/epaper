@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ePaper | Home</title>
+    <title>THE POOKIE | Home</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -14,8 +14,12 @@
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@500&family=Rye&family=Cup+Cakes&display=swap"
       rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
 
     <link rel="stylesheet" href="/assets/css/styles.css" />
@@ -26,48 +30,150 @@
       class="main-header d-flex justify-content-between align-items-center"
     >
       <div class="d-flex align-items-center">
-        <img src="/assets/images/logo.png" alt="Logo" class="logo-img me-3" />
+        <img
+          src="/assets/images/logo.png"
+          alt="Logo"
+          class="logo-img logo-lg me-3 desktop-logo"
+        />
+        <img
+          src="/assets/images/logo-sm.png"
+          alt="Logo"
+          class="logo-img logo-sm me-3 mobile-logo"
+        />
       </div>
-      <div class="text-center flex-grow-1">
-        <h1 class="main-title mb-0">
-          News<span class="highlight">paper</span>
+      <div class="text-center flex-grow-1 header-text">
+        <h1 class="main-title mb-0" style="font-family: 'Rye', cursive">
+          THE POOKIE
         </h1>
+        <p
+          class="motto mb-0"
+          style="font-family: 'Cup Cakes', cursive; font-weight: bold"
+        >
+          Where Every Quirk has a Voice
+        </p>
       </div>
-      <div style="width: 60px"></div>
-      <!-- spacer for symmetry with logo -->
+      <div class="d-flex align-items-center">
+        <img
+          src="/assets/images/The Pookie logo.jpg"
+          alt="College Logo"
+          class="logo-img logo-lg ms-3"
+        />
+      </div>
     </header>
+
+    <style>
+      .header-text {
+        padding-right: 120px;
+      }
+      .logo-sm {
+        width: 40px;
+        height: auto;
+      }
+
+      .logo-lg {
+        width: 120px;
+        height: auto;
+      }
+
+      .mobile-logo {
+        display: none;
+      }
+
+      .desktop-logo {
+        width: 290px;
+      }
+
+      @media (max-width: 768px) {
+        .main-header {
+          flex-direction: row;
+          text-align: center;
+          gap: 1rem;
+        }
+        .header-text {
+          padding-right: 0px;
+        }
+        .main-header > div {
+          width: 100%;
+        }
+
+        .desktop-logo {
+          display: none;
+        }
+
+        .mobile-logo {
+          display: block;
+          width: 70px;
+          height: auto;
+        }
+
+        .logo-lg {
+          width: 100px;
+          margin-right: 5px;
+        }
+
+        .motto {
+          display: none;
+          font-size: 0.9rem;
+        }
+      }
+
+      /* Styles for the edition cards */
+      .edition-card {
+        /* Already has Bootstrap classes for shadow, border-radius */
+        overflow: hidden; /* Ensures rounded corners clip image */
+      }
+
+      .edition-img-container img {
+        width: 100%;
+        height: auto;
+        display: block; /* Remove extra space below image */
+      }
+
+      .edition-card .card-body {
+        padding: 15px; /* Adjust padding */
+      }
+
+      .edition-title {
+        font-size: 1.2rem; /* Adjust font size */
+        font-weight: bold;
+        margin-bottom: 5px; /* Space below title */
+        color: #333; /* Darker color for title */
+      }
+
+      .edition-date {
+        font-size: 0.9rem; /* Adjust font size */
+        color: #666; /* Muted color for date */
+        margin-bottom: 15px; /* Space below date */
+      }
+
+      .edition-button {
+        /* Uses Bootstrap btn btn-warning rounded-pill */
+        font-size: 1rem;
+        font-weight: bold;
+        /* Background color is set by Bootstrap btn-warning, which is orange */
+        /* If you need a specific orange, you might override here */
+        background-color: #ff9800; /* Example orange, adjust as needed */
+        border-color: #ff9800;
+      }
+
+      .edition-button:hover {
+        background-color: #f57c00; /* Darker orange on hover */
+        border-color: #f57c00;
+      }
+    </style>
 
     <!-- Hero Section -->
     <section class="hero-section">
-      <h2>Read editions from <span>top newspapers</span> in one place.</h2>
+      <h2>A platform to read for bold thoughts and bright minds</h2>
     </section>
 
     <!-- Search Card -->
     <div class="search-card">
       <div class="row g-3 search-controls">
-        <div class="col-md-5">
-          <input
-            id="searchInput"
-            type="text"
-            class="form-control"
-            placeholder="Search newspaper name..."
-          />
-        </div>
-        <div class="col-md-3">
+        <div class="col-12">
           <select id="monthFilter" class="form-select">
             <option value="">All Months</option>
           </select>
-        </div>
-        <div class="col-md-2 d-grid">
-          <button
-            class="btn"
-            onclick="document.getElementById('searchInput').dispatchEvent(new Event('input'))"
-          >
-            Search
-          </button>
-        </div>
-        <div class="col-md-2 d-grid">
-          <button id="clearBtn" class="btn btn-outline-secondary">Clear</button>
         </div>
       </div>
     </div>
@@ -81,34 +187,295 @@
       <div id="error" class="text-center text-danger my-5 d-none"></div>
     </main>
 
+    <!-- About Section -->
+    <section class="about-section container my-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="card border-0 shadow-lg">
+            <div class="card-body p-4 p-md-5">
+              <h3 class="text-center mb-4">About The Pookie</h3>
+              <div class="row g-4">
+                <div class="col-md-4">
+                  <div class="text-center">
+                    <div class="display-4 mb-3">📰</div>
+                    <p class="text-muted">
+                      The Pookie is a vibrant, student-led monthly e-newspaper
+                      from the Department of English, St. Joseph's College
+                      (Autonomous), Tiruchirappalli. Rooted in the belief that
+                      "Where Every Quirk Has a Voice," this initiative offers a
+                      practical platform for students to express, create and
+                      grow.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="text-center">
+                    <div class="display-4 mb-3">🎓</div>
+                    <p class="text-muted">
+                      Conceived to nurture writing, editing and proofreading
+                      skills, The Pookie empowers learners to become confident
+                      communicators and reflective thinkers. Curated entirely by
+                      students - with guidance from friendly faculty and support
+                      from the visionary management - the newspaper reflects the
+                      dynamic spirit of campus life, academic thought and
+                      youthful creativity.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="text-center">
+                    <div class="display-4 mb-3">💡</div>
+                    <p class="text-muted">
+                      Available in a convenient digital format, each monthly
+                      edition invites readers to read, respond and resonate with
+                      voices that are bold, curious and wonderfully unique.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <style>
+      /* Styles for the About section */
+      .about-card {
+        /* Bootstrap classes already provide background, border-radius, shadow */
+      }
+
+      .about-header h3 {
+        font-size: 2rem; /* Larger heading */
+        font-weight: bold;
+        color: #333; /* Darker color */
+      }
+
+      .about-divider {
+        height: 4px; /* Thicker divider */
+        background: linear-gradient(
+          90deg,
+          #ff9800,
+          #f57c00
+        ); /* Orange gradient matching button */
+        width: 120px; /* Wider divider */
+        margin-top: 15px; /* Space below heading */
+        border-radius: 2px;
+      }
+
+      .about-block .about-icon {
+        font-size: 3rem; /* Larger icons */
+        color: #ff9800; /* Icon color matching button */
+        /* Removed min-width as text-align center handles alignment */
+      }
+
+      .about-block p {
+        font-size: 1rem; /* Slightly smaller paragraph text */
+        line-height: 1.5; /* Standard line height */
+        color: #555; /* Slightly lighter text */
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .about-card .card-body {
+          padding: 1.5rem; /* Adjust padding for small screens */
+        }
+
+        .about-block {
+          /* Flex direction and alignment are handled by Bootstrap grid and text-center */
+          margin-bottom: 1.5rem; /* Adjust spacing between blocks */
+        }
+        .about-block:last-child {
+          margin-bottom: 0; /* No bottom margin for last block on mobile */
+        }
+
+        .about-header h3 {
+          font-size: 1.75rem;
+        }
+      }
+
+      .form-select {
+        font-size: 1.1rem;
+        /* padding: 0.75rem 1rem; */
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        background-color: #fff;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      }
+
+      .form-select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      }
+
+      .search-card {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+      }
+
+      /* Styles for the edition cards */
+      .edition-card {
+        /* Already has Bootstrap classes for shadow, border-radius */
+        overflow: hidden; /* Ensures rounded corners clip image */
+      }
+
+      .edition-img-container img {
+        width: 100%;
+        height: auto;
+        display: block; /* Remove extra space below image */
+      }
+
+      .edition-card .card-body {
+        padding: 15px; /* Adjust padding */
+      }
+
+      .edition-title {
+        font-size: 1.2rem; /* Adjust font size */
+        font-weight: bold;
+        margin-bottom: 5px; /* Space below title */
+        color: #333; /* Darker color for title */
+      }
+
+      .edition-date {
+        font-size: 0.9rem; /* Adjust font size */
+        color: #666; /* Muted color for date */
+        margin-bottom: 15px; /* Space below date */
+      }
+
+      .edition-button {
+        /* Uses Bootstrap btn btn-warning rounded-pill */
+        font-size: 1rem;
+        font-weight: bold;
+        /* Background color is set by Bootstrap btn-warning, which is orange */
+        /* If you need a specific orange, you might override here */
+        background-color: #ff9800; /* Example orange, adjust as needed */
+        border-color: #ff9800;
+      }
+
+      .edition-button:hover {
+        background-color: #f57c00; /* Darker orange on hover */
+        border-color: #f57c00;
+      }
+
+      /* About section styles */
+      .about-section .card {
+        border-radius: 15px;
+        overflow: hidden;
+      }
+
+      .about-section h3 {
+        font-family: "Rye", cursive;
+        color: #333;
+        position: relative;
+        padding-bottom: 15px;
+      }
+
+      .about-section h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(90deg, #ff9800, #f57c00);
+        border-radius: 2px;
+      }
+
+      .about-section .display-4 {
+        color: #ff9800;
+        transition: transform 0.3s ease;
+      }
+
+      .about-section .text-center:hover .display-4 {
+        transform: scale(1.1);
+      }
+
+      .about-section p {
+        line-height: 1.6;
+        color: #666;
+      }
+
+      @media (max-width: 768px) {
+        .about-section .card-body {
+          padding: 1.5rem;
+        }
+
+        .about-section .text-center {
+          margin-bottom: 2rem;
+        }
+
+        .about-section .text-center:last-child {
+          margin-bottom: 0;
+        }
+      }
+    </style>
+
     <!-- Footer -->
     <footer class="footer mt-auto py-4 bg-white border-top">
       <div class="container">
         <div class="row align-items-center">
           <!-- Left Column: Newspaper Name -->
           <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-            <h5 class="mb-0 fw-bold">
-              News<span class="text-primary">paper</span>
+            <h5 class="mb-0 fw-bold" style="font-family: 'Rye', cursive">
+              THE POOKIE
             </h5>
+            <p class="mb-0 text-muted">A Department Monthly eNewspaper</p>
+            <p class="mb-0 text-muted">PG & Research Department of English</p>
           </div>
-          <!-- Right Column: Description -->
+          <!-- Right Column: Social Media Links with Icons -->
           <div class="col-md-6 text-center text-md-end">
-            <p class="mb-0 small text-muted">
-              A curated platform bringing together editions from top newspapers
-              in one place.
-            </p>
+            <a
+              href="https://www.youtube.com/@thepookie"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-decoration-none me-2 social-icon-link"
+            >
+              <i class="bi bi-youtube fs-4"></i>
+            </a>
+            <a
+              href="https://www.instagram.com/thepookie"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-decoration-none me-2 social-icon-link"
+            >
+              <i class="bi bi-instagram fs-4"></i>
+            </a>
+            <a
+              href="https://www.twitter.com/@thepookie"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-decoration-none social-icon-link"
+            >
+              <i class="bi bi-twitter-x fs-4"></i>
+            </a>
+            <a
+              href="https://jwswebservices.netlify.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-decoration-none fw-semibold text-muted"
+            >
+              <img
+                src="/assets/images/engzine.png"
+                alt="Engzine"
+                class="engzine-logo"
+              />
+            </a>
           </div>
         </div>
         <hr class="my-3" />
         <div class="row">
           <div class="col text-center">
             <p class="mb-0 small text-muted">
-              &copy; 2025 Newspaper. All rights reserved. | Developed by
+              &copy; 2025 The Pookie. All rights reserved. | Developed by
               <a
                 href="https://jwswebservices.netlify.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-decoration-none fw-semibold"
+                class="text-decoration-none fw-semibold text-muted"
               >
                 JWS
               </a>
@@ -117,6 +484,48 @@
         </div>
       </div>
     </footer>
+
+    <!-- Add style for social icons -->
+    <style>
+      .engzine-logo {
+        width: 37px;
+        height: 37px;
+        padding-left: 3px;
+        padding-bottom: 5px;
+        filter: grayscale(100%);
+        transition: filter 0.3s ease;
+      }
+
+      .engzine-logo:hover {
+        filter: grayscale(0%);
+      }
+
+      .social-icon-link .bi {
+        color: #000;
+        transition: color 0.3s ease;
+        padding: 3px;
+      }
+
+      .social-icon-link:hover .bi {
+      }
+
+      .social-icon-link:hover .bi.bi-youtube {
+        color: #ff0000;
+      }
+
+      .social-icon-link:hover .bi.bi-instagram {
+        color: #e1306c;
+      }
+
+      .social-icon-link:hover .bi.bi-twitter-x {
+        color: #000000;
+      }
+
+      .footer .text-muted a {
+        color: inherit !important;
+        text-decoration: underline;
+      }
+    </style>
 
     <!-- Bootstrap and Firebase -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

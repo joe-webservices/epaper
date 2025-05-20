@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload Paper - Admin Portal</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link href="css/admin.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="admin-layout">
+      <!-- Include Header -->
+      <div id="header"></div>
+
+      <!-- Include Sidebar -->
+      <div id="sidebar"></div>
+
+      <!-- Main Content -->
+      <main class="admin-main">
+        <div class="container-fluid">
+          <h2 class="mb-4">Upload Paper</h2>
+
+          <div class="content-card">
+            <div class="card-header">
+              <h3 class="card-title">Upload New Edition</h3>
+            </div>
+            <div class="card-body">
+              <form id="uploadForm" class="admin-form">
+                <div class="form-group">
+                  <label for="paperName" class="form-label"
+                    >Newspaper Name (e.g., toi)</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="paperName"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="editionDate" class="form-label"
+                    >Edition Date</label
+                  >
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="editionDate"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="driveLink" class="form-label"
+                    >Google Drive Shareable Link</label
+                  >
+                  <input
+                    type="url"
+                    class="form-control"
+                    id="driveLink"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="thumbUrl" class="form-label"
+                    >Thumbnail Image URL</label
+                  >
+                  <input
+                    type="url"
+                    class="form-control"
+                    id="thumbUrl"
+                    placeholder="https://example.com/thumb.jpg"
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-success w-100 mt-2"
+                  id="uploadBtn"
+                >
+                  <span id="uploadBtnText">Save Link</span>
+                  <span
+                    id="uploadSpinner"
+                    class="spinner-border spinner-border-sm d-none"
+                    role="status"
+                  ></span>
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Recent Uploads -->
+          <div class="content-card mt-4">
+            <div class="card-header">
+              <h3 class="card-title">Recent Uploads</h3>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Paper</th>
+                      <th>Edition</th>
+                      <th>Upload Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recentUploads">
+                    <!-- Recent uploads will be inserted here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container">
+      <div
+        id="liveToast"
+        class="toast"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-body"></div>
+      </div>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom Scripts -->
+    <script src="js/upload.js"></script>
+    <script>
+      // Load header and sidebar
+      fetch("components/admin-header.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("header").innerHTML = data;
+          // Bind logout button after header loads
+          bindLogoutBtn(auth);
+        });
+
+      fetch("components/admin-sidebar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("sidebar").innerHTML = data;
+          // Set active nav item
+          document.getElementById("navUpload").classList.add("active");
+        });
+    </script>
+  </body>
+</html>

@@ -8,8 +8,97 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
     <link rel="stylesheet" href="/assets/css/admin.css" />
     <style>
+      :root {
+        --sidebar-width: 280px;
+      }
+
+      body {
+        min-height: 100vh;
+        background-color: #f8f9fa;
+      }
+
+      .sidebar {
+        width: var(--sidebar-width);
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        background: #fff;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      .main-content {
+        margin-left: var(--sidebar-width);
+        padding: 2rem;
+        transition: all 0.3s ease;
+      }
+
+      .sidebar-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .nav-link {
+        padding: 0.8rem 1.5rem;
+        color: #495057;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .nav-link:hover {
+        background: #f8f9fa;
+        color: #0d6efd;
+      }
+
+      .nav-link.active {
+        background: #e9ecef;
+        color: #0d6efd;
+      }
+
+      .nav-link i {
+        font-size: 1.1rem;
+      }
+
+      .stats-card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease;
+      }
+
+      .stats-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .stats-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .section {
+        display: none;
+      }
+
+      .section.active {
+        display: block;
+      }
+
       .btn-toggle-pwd {
         position: absolute;
         top: 50%;
@@ -20,254 +109,395 @@
         cursor: pointer;
         font-size: 1.1rem;
         color: #6c757d;
-        user-select: none;
-      }
-      .btn-toggle-pwd:focus {
-        outline: none;
-        color: #495057;
-      }
-      .pointer {
-        cursor: pointer;
-      }
-      section {
-        display: none;
-      }
-      section.active {
-        display: block;
       }
 
-      #navTabs {
-        margin-bottom: 1rem;
-        user-select: none;
+      .theme-toggle {
+        position: fixed;
+        bottom: 1rem;
+        left: 1rem;
+        z-index: 1001;
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.active {
+          transform: translateX(0);
+        }
+
+        .main-content {
+          margin-left: 0;
+        }
+
+        .main-content.sidebar-active {
+          margin-left: var(--sidebar-width);
+        }
       }
     </style>
   </head>
-  <body class="p-5 bg-light">
-    <div class="container" style="max-width: 600px">
-      <h2 class="mb-4 text-center">Admin Panel</h2>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h4 class="mb-0">Admin Panel</h4>
+      </div>
+      <nav class="nav flex-column mt-3">
+        <a href="#" class="nav-link active" data-section="dashboardSection">
+          <i class="bi bi-speedometer2"></i>
+          Dashboard
+        </a>
+        <a href="#" class="nav-link" data-section="uploadSection">
+          <i class="bi bi-cloud-upload"></i>
+          Upload Paper
+        </a>
+        <a href="#" class="nav-link" data-section="manageSection">
+          <i class="bi bi-files"></i>
+          Manage Papers
+        </a>
+        <a href="#" class="nav-link" data-section="settingsSection">
+          <i class="bi bi-gear"></i>
+          Settings
+        </a>
+        <button class="btn btn-danger mt-auto mx-3" id="logoutBtn">
+          <i class="bi bi-box-arrow-right"></i>
+          Logout
+        </button>
+      </nav>
+    </div>
 
-      <!-- LOGIN -->
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Login Section -->
       <section id="loginSection" class="active">
-        <h4 class="mb-3">Admin Login</h4>
-        <form id="loginForm" novalidate>
-          <div class="mb-3">
-            <input
-              type="email"
-              id="email"
-              class="form-control"
-              placeholder="Email"
-              autocomplete="email"
-              required
-            />
+        <div class="container" style="max-width: 400px">
+          <div class="card shadow-sm">
+            <div class="card-body p-4">
+              <h4 class="mb-4 text-center">Admin Login</h4>
+              <form id="loginForm" novalidate>
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    class="form-control"
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+                <div class="mb-3 position-relative">
+                  <label class="form-label">Password</label>
+                  <input
+                    type="password"
+                    id="password"
+                    class="form-control"
+                    placeholder="Enter your password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    id="togglePassword"
+                    class="btn-toggle-pwd"
+                    aria-label="Toggle password visibility"
+                  >
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+                <button
+                  type="submit"
+                  class="btn btn-primary w-100"
+                  id="loginBtn"
+                >
+                  <span id="loginBtnText">Login</span>
+                  <span
+                    id="loginSpinner"
+                    class="spinner-border spinner-border-sm ms-2 d-none"
+                    role="status"
+                  ></span>
+                </button>
+                <div id="login-error" class="mt-3 text-danger"></div>
+              </form>
+            </div>
           </div>
-          <div class="mb-3 position-relative">
-            <input
-              type="password"
-              id="password"
-              class="form-control"
-              placeholder="Password"
-              autocomplete="current-password"
-              required
-            />
-            <button
-              type="button"
-              id="togglePassword"
-              class="btn-toggle-pwd"
-              aria-label="Toggle password visibility"
-              tabindex="-1"
-              title="Show/Hide password"
-            >
-              👁️
-            </button>
-          </div>
-          <button type="submit" class="btn btn-primary w-100" id="loginBtn">
-            <span id="loginBtnText">Login</span>
-            <span
-              id="loginSpinner"
-              class="spinner-border spinner-border-sm ms-2 d-none"
-              role="status"
-              aria-hidden="true"
-            ></span>
-          </button>
-          <div id="login-error" class="mt-3 text-danger"></div>
-        </form>
+        </div>
       </section>
 
       <!-- Admin UI after login -->
       <section id="adminUI">
-        <nav id="navTabs" class="nav nav-tabs justify-content-center">
-          <a href="#" class="nav-link active" data-section="dashboardSection"
-            >Dashboard</a
-          >
-          <a href="#" class="nav-link" data-section="uploadSection"
-            >Upload Paper</a
-          >
-          <a href="#" class="nav-link" data-section="manageSection"
-            >Manage Papers</a
-          >
-          <button
-            class="btn btn-sm btn-danger ms-3 d-flex align-items-center gap-1"
-            id="logoutBtn"
-          >
-            Logout
-          </button>
-        </nav>
-
+        <!-- Dashboard Section -->
         <section id="dashboardSection" class="active">
-          <div class="card text-center shadow-sm mb-4">
-            <div class="card-body">
-              <h5>Total Papers Uploaded</h5>
-              <h2 id="paperCount">0</h2>
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="mb-0">Dashboard Overview</h4>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-primary" id="refreshStats">
+                <i class="bi bi-arrow-clockwise"></i> Refresh
+              </button>
+            </div>
+          </div>
+
+          <div class="row g-4 mb-4">
+            <div class="col-md-4">
+              <div class="stats-card">
+                <div class="stats-icon bg-primary bg-opacity-10 text-primary">
+                  <i class="bi bi-files"></i>
+                </div>
+                <h3 id="paperCount">0</h3>
+                <p class="text-muted mb-0">Total Papers</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="stats-card">
+                <div class="stats-icon bg-success bg-opacity-10 text-success">
+                  <i class="bi bi-cloud-upload"></i>
+                </div>
+                <h3 id="recentUploads">0</h3>
+                <p class="text-muted mb-0">Recent Uploads</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="stats-card">
+                <div class="stats-icon bg-info bg-opacity-10 text-info">
+                  <i class="bi bi-eye"></i>
+                </div>
+                <h3 id="totalViews">0</h3>
+                <p class="text-muted mb-0">Total Views</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">Recent Activity</h5>
+                  <div id="activityLog" class="list-group list-group-flush">
+                    <!-- Activity items will be added here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">Quick Actions</h5>
+                  <div class="d-grid gap-2">
+                    <button
+                      class="btn btn-primary"
+                      onclick="showSection('uploadSection')"
+                    >
+                      <i class="bi bi-cloud-upload"></i> Upload New Paper
+                    </button>
+                    <button
+                      class="btn btn-outline-primary"
+                      onclick="showSection('manageSection')"
+                    >
+                      <i class="bi bi-files"></i> Manage Papers
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
+        <!-- Upload Section -->
         <section id="uploadSection">
-          <h4 class="mb-3">Upload New Edition (Google Drive Link)</h4>
-          <form id="uploadForm" novalidate>
-            <div class="mb-3">
-              <label for="paperName" class="form-label"
-                >Newspaper Name (e.g., toi)</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="paperName"
-                required
-                autocomplete="off"
-              />
-            </div>
-
-            <div class="mb-3">
-              <label for="editionDate" class="form-label">Edition Date</label>
-              <input
-                type="date"
-                class="form-control"
-                id="editionDate"
-                required
-              />
-            </div>
-
-            <div class="mb-3">
-              <label for="driveLink" class="form-label"
-                >Google Drive Shareable Link</label
-              >
-              <input
-                type="url"
-                class="form-control"
-                id="driveLink"
-                required
-                autocomplete="off"
-              />
-            </div>
-
-            <div class="mb-3">
-              <label for="thumbUrl" class="form-label"
-                >Thumbnail Image URL</label
-              >
-              <input
-                type="url"
-                class="form-control"
-                id="thumbUrl"
-                placeholder="https://example.com/thumb.jpg"
-                autocomplete="off"
-              />
-            </div>
-
-            <button type="submit" class="btn btn-success w-100" id="saveBtn">
-              <span id="saveBtnText">Save Link</span>
-              <span
-                id="saveSpinner"
-                class="spinner-border spinner-border-sm ms-2 d-none"
-                role="status"
-                aria-hidden="true"
-              ></span>
-            </button>
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="mb-0">Upload New Edition</h4>
             <button
-              type="button"
-              id="backToDashboard"
-              class="btn btn-link mt-2"
+              class="btn btn-outline-secondary"
+              onclick="showSection('dashboardSection')"
             >
-              ← Back to Dashboard
+              <i class="bi bi-arrow-left"></i> Back to Dashboard
             </button>
-          </form>
+          </div>
+
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <form id="uploadForm" novalidate>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Newspaper Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="paperName"
+                      placeholder="e.g., toi"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Edition Date</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="editionDate"
+                      required
+                    />
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label"
+                      >Google Drive Shareable Link</label
+                    >
+                    <input
+                      type="url"
+                      class="form-control"
+                      id="driveLink"
+                      required
+                    />
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Thumbnail Image URL</label>
+                    <input
+                      type="url"
+                      class="form-control"
+                      id="thumbUrl"
+                      placeholder="https://example.com/thumb.jpg"
+                    />
+                    <div class="mt-2" id="thumbnailPreview"></div>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary" id="saveBtn">
+                      <span id="saveBtnText">Save Paper</span>
+                      <span
+                        id="saveSpinner"
+                        class="spinner-border spinner-border-sm ms-2 d-none"
+                        role="status"
+                      ></span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         </section>
 
+        <!-- Manage Papers Section -->
         <section id="manageSection">
-          <h4 class="mb-3">Manage Papers</h4>
-          <div id="papersList" class="list-group mb-4"></div>
-
-          <!-- Edit form -->
-          <div id="editFormContainer" style="display: none">
-            <h5>Edit Edition</h5>
-            <form id="editForm">
-              <input type="hidden" id="editPaperName" />
-              <input type="hidden" id="editEditionDate" />
-
-              <div class="mb-3">
-                <label for="editDriveLink" class="form-label"
-                  >Google Drive Link</label
-                >
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="mb-0">Manage Papers</h4>
+            <div class="d-flex gap-2">
+              <div class="input-group" style="width: 300px">
                 <input
-                  type="url"
+                  type="text"
                   class="form-control"
-                  id="editDriveLink"
-                  required
+                  id="searchPapers"
+                  placeholder="Search papers..."
                 />
+                <button class="btn btn-outline-secondary" type="button">
+                  <i class="bi bi-search"></i>
+                </button>
               </div>
-
-              <div class="mb-3">
-                <label for="editThumbUrl" class="form-label"
-                  >Thumbnail Image URL</label
-                >
-                <input type="url" class="form-control" id="editThumbUrl" />
-              </div>
-
-              <button type="submit" class="btn btn-primary">
-                Save Changes
-              </button>
               <button
-                type="button"
-                id="cancelEditBtn"
-                class="btn btn-secondary ms-2"
+                class="btn btn-outline-secondary"
+                onclick="showSection('dashboardSection')"
               >
-                Cancel
+                <i class="bi bi-arrow-left"></i> Back
               </button>
-            </form>
+            </div>
+          </div>
+
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="papersList">
+                    <!-- Papers will be listed here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settingsSection">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="mb-0">Settings</h4>
+            <button
+              class="btn btn-outline-secondary"
+              onclick="showSection('dashboardSection')"
+            >
+              <i class="bi bi-arrow-left"></i> Back to Dashboard
+            </button>
+          </div>
+
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div class="mb-4">
+                <h5>Appearance</h5>
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="darkModeToggle"
+                  />
+                  <label class="form-check-label" for="darkModeToggle"
+                    >Dark Mode</label
+                  >
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <h5>Notifications</h5>
+                <div class="form-check mb-2">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="emailNotifications"
+                  />
+                  <label class="form-check-label" for="emailNotifications">
+                    Email Notifications
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="browserNotifications"
+                  />
+                  <label class="form-check-label" for="browserNotifications">
+                    Browser Notifications
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </section>
     </div>
 
     <!-- Toast for messages -->
-    <div
-      id="liveToast"
-      class="toast align-items-center text-bg-primary border-0"
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
-      style="position: fixed; top: 1rem; right: 1rem; z-index: 1080"
-    >
-      <div class="d-flex">
-        <div id="toastBody" class="toast-body">
-          <!-- Toast message goes here -->
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+      <div
+        id="liveToast"
+        class="toast align-items-center text-white bg-primary border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="d-flex">
+          <div class="toast-body"></div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
         </div>
-        <button
-          type="button"
-          class="btn-close btn-close-white me-2 m-auto"
-          data-bs-dismiss="toast"
-          aria-label="Close"
-        ></button>
       </div>
     </div>
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Your external JS -->
     <script src="admin.js"></script>
   </body>
 </html>
