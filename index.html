@@ -115,6 +115,11 @@
           display: none;
           font-size: 0.9rem;
         }
+
+        .btn-outline-warning {
+          padding: 0.25rem 0.5rem;
+          font-size: 0.875rem;
+        }
       }
 
       /* Styles for the edition cards */
@@ -188,7 +193,7 @@
     </main>
 
     <!-- About Section -->
-    <section class="about-section container my-5">
+    <!-- <section id="about-section" class="about-section container my-5">
       <div class="row justify-content-center">
         <div class="col-lg-10">
           <div class="card border-0 shadow-lg">
@@ -237,7 +242,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <style>
       /* Styles for the About section */
@@ -425,6 +430,16 @@
             </h5>
             <p class="mb-0 text-muted">A Department Monthly eNewspaper</p>
             <p class="mb-0 text-muted">PG & Research Department of English</p>
+            <a
+              href="about.html"
+              class="text-decoration-none text-muted d-block mb-2"
+              >About Us</a
+            >
+            <a
+              href="mailto:sjcpookie@mail.sjctni.edu"
+              class="text-decoration-none text-muted d-block mb-2"
+              >sjcpookie@mail.sjctni.edu</a
+            >
           </div>
           <!-- Right Column: Social Media Links with Icons -->
           <div class="col-md-6 text-center text-md-end">
@@ -453,7 +468,7 @@
               <i class="bi bi-twitter-x fs-4"></i>
             </a>
             <a
-              href="https://jwswebservices.netlify.app/"
+              href="https://sjctni.edu/Department/ENGZINE/"
               target="_blank"
               rel="noopener noreferrer"
               class="text-decoration-none fw-semibold text-muted"
@@ -470,7 +485,10 @@
         <div class="row">
           <div class="col text-center">
             <p class="mb-0 small text-muted">
-              &copy; 2025 The Pookie. All rights reserved. | Developed by
+              &copy; 2025 The Pookie. All rights reserved.
+            </p>
+            <p class="mb-0 small text-muted">
+              Developed by
               <a
                 href="https://jwswebservices.netlify.app/"
                 target="_blank"
@@ -506,9 +524,6 @@
         padding: 3px;
       }
 
-      .social-icon-link:hover .bi {
-      }
-
       .social-icon-link:hover .bi.bi-youtube {
         color: #ff0000;
       }
@@ -524,6 +539,31 @@
       .footer .text-muted a {
         color: inherit !important;
         text-decoration: underline;
+      }
+
+      .about-link {
+        position: relative;
+        display: inline-block;
+        transition: color 0.3s ease;
+      }
+
+      .about-link:hover {
+        color: #ff9800 !important;
+      }
+
+      .about-link::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #ff9800;
+        transition: width 0.3s ease;
+      }
+
+      .about-link:hover::after {
+        width: 100%;
       }
     </style>
 
