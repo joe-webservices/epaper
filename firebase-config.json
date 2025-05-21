@@ -1,10 +1,10 @@
 {
-  "apiKey": "AIzaSyDSTtPFBQa9K1830kFtWIWrbsgdWbQ41s4",
-  "authDomain": "project-404aa.firebaseapp.com",
-  "databaseURL": "https://project-404aa-default-rtdb.asia-southeast1.firebasedatabase.app",
-  "projectId": "project-404aa",
-  "storageBucket": "project-404aa.appspot.com",
-  "messagingSenderId": "564465678821",
-  "appId": "1:564465678821:web:92dc6a490320560ca9570c",
-  "measurementId": "G-T8KQ8J7D5N"
+  "apiKey": "AIzaSyBHVZNL9VE_D7W8_dIlkWd0Uf8yX2BnvM8",
+  "authDomain": "epaper-d9278.firebaseapp.com",
+  "databaseURL": "https://epaper-d9278-default-rtdb.asia-southeast1.firebasedatabase.app",
+  "projectId": "epaper-d9278",
+  "storageBucket": "epaper-d9278.firebasestorage.app",
+  "messagingSenderId": "27876507836",
+  "appId": "1:27876507836:web:4f9811f77fd9c268cd50b9",
+  "measurementId": "G-YNRYGCPHFT"
 }
