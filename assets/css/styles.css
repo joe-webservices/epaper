@@ -257,16 +257,15 @@ body {
   padding-bottom: 3rem; /* Add this */
 }
 
-
 .footer-48201 {
   background-color: #000000;
   color: #ffffff;
   padding: 1.5rem 0 1.5rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .footer-48201 h3 {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 600;
   font-size: 1.1rem;
   margin-bottom: 0.75rem;
@@ -321,7 +320,7 @@ body {
 }
 
 .footer-48201 .footer-site-logo {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 600;
   font-size: 1rem;
   color: #ffffff;
@@ -414,4 +413,72 @@ body {
   max-width: 100px;
   height: auto;
   margin: 0.75rem auto;
+}
+
+.header-text {
+  padding-right: 120px;
+}
+.logo-sm {
+  width: 40px;
+  height: auto;
+}
+
+.logo-lg {
+  width: 120px;
+  height: auto;
+}
+
+.mobile-logo {
+  display: none;
+}
+
+.desktop-logo {
+  width: 290px;
+}
+
+@media (max-width: 768px) {
+  .main-header {
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-around;
+    padding: 10px 0;
+  }
+  .header-text {
+    padding-right: 0px;
+  }
+  .main-title {
+    padding-left: 0px;
+    font-size: 1.2rem;
+  }
+  .main-header > div {
+    width: 100%;
+  }
+
+  .desktop-logo {
+    display: none;
+  }
+
+  .mobile-logo {
+    display: block;
+    width: 60px;
+    height: auto;
+  }
+
+  .logo-lg {
+    width: 100px;
+    margin-right: 5px;
+  }
+
+  .motto {
+    font-size: 0.9rem;
+  }
+
+  .btn-outline-warning {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+  .hero-section {
+    font-family: "Cup Cakes", cursive;
+    background: linear-gradient(1deg, #dcd9ca, #aca793);
+  }
 }
