@@ -256,3 +256,162 @@ body {
 .editions-section {
   padding-bottom: 3rem; /* Add this */
 }
+
+
+.footer-48201 {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 1.5rem 0 1.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-48201 h3 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+}
+
+.footer-48201 p {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+  color: #ffffff;
+}
+
+.footer-48201 .text-muted {
+  color: #ffffff;
+  font-size: 0.85rem;
+}
+
+.footer-48201 a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+.footer-48201 a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.footer-48201 .nav-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-48201 .nav-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-48201 .nav-links li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.3s ease;
+}
+
+.footer-48201 .nav-links li a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.footer-48201 .footer-site-logo {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.footer-48201 .social-icon-link .bi {
+  color: #ffffff;
+  transition: color 0.3s ease;
+  padding: 2px;
+  font-size: 1rem;
+}
+
+.footer-48201 .social-icon-link:hover .bi.bi-youtube {
+  color: #ff0000;
+}
+
+.footer-48201 .social-icon-link:hover .bi.bi-instagram {
+  color: #e1306c;
+}
+
+.footer-48201 .social-icon-link:hover .bi.bi-twitter-x {
+  color: #ffffff;
+}
+
+.footer-48201 .copyright {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-48201 .copyright small {
+  font-size: 0.8rem;
+  color: #ffffff;
+}
+
+.footer-48201 #copyright-footer {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-48201 #copyright-footer:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .footer-48201 h3 {
+    font-size: 1rem;
+  }
+
+  .footer-48201 p {
+    font-size: 0.85rem;
+    line-height: 1.3;
+  }
+
+  .footer-48201 .nav-links li a {
+    font-size: 0.8rem;
+  }
+
+  .footer-48201 .social-icon-link .bi {
+    font-size: 0.95rem;
+  }
+
+  .footer-48201 .copyright {
+    margin-top: 1.5rem;
+    padding-top: 0.75rem;
+  }
+
+  .footer-48201 .copyright small {
+    font-size: 0.75rem;
+  }
+}
+
+/* Add some spacing between footer sections */
+.footer-48201 .col-md {
+  margin-bottom: 1rem;
+}
+
+/* Style the QR code section */
+.footer-48201 .qr-section {
+  text-align: center;
+}
+
+.footer-48201 .qr-section img {
+  max-width: 100px;
+  height: auto;
+  margin: 0.75rem auto;
+}
