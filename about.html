@@ -349,6 +349,74 @@
       </div>
     </footer>
     <style>
+       .header-text {
+        padding-right: 120px;
+      }
+      .logo-sm {
+        width: 40px;
+        height: auto;
+      }
+
+      .logo-lg {
+        width: 120px;
+        height: auto;
+      }
+
+      .mobile-logo {
+        display: none;
+      }
+
+      .desktop-logo {
+        width: 290px;
+      }
+
+      @media (max-width: 768px) {
+        .main-header {
+          flex-direction: row;
+          text-align: center;
+          justify-content: space-around;
+          padding: 10px 0;
+        }
+        .header-text {
+          padding-right: 0px;
+        }
+        .main-title {
+          padding-left: 0px;
+          font-size: 1.2rem;
+        }
+        .main-header > div {
+          width: 100%;
+        }
+
+        .desktop-logo {
+          display: none;
+        }
+
+        .mobile-logo {
+          display: block;
+          width: 60px;
+          height: auto;
+        }
+
+        .logo-lg {
+          width: 100px;
+          margin-right: 5px;
+        }
+
+        .motto {
+          font-size: 0.9rem;
+        }
+
+        .btn-outline-warning {
+          padding: 0.25rem 0.5rem;
+          font-size: 0.875rem;
+        }
+        .hero-section {
+          font-family: "Cup Cakes", cursive;
+          background: linear-gradient(1deg, #dcd9ca, #aca793);
+        }
+      }
+
       /* Header Styles */
       .header-text {
         padding-right: 120px;
